@@ -5,11 +5,11 @@
 #'
 #' @name FKM_Null_Model
 #' @aliases FKM_Null_Model
-#' @param phenotype A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. No missing.
+#' @param phenotype A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. Subjects with missing phenotypes are only used for kinship calculation.
 #' @param id A vector of id (class: vector). It can be either numeric or character. The id indicates each subject. Make sure it is not factor. No missing.
 #' @param fa A vector of father id (class: vector). It can be either numeric or character. The father id indicates the father of each subject. If this subject has no father in this data, the value is set to "NA". Make sure it is not factor.
 #' @param mo A vector of mother id (class: vector). It can be either numeric or character. The mother id indicates the mother of each subject. If this subject has no mother in this data, the value is set to "NA". Make sure it is not factor.
-#' @param covariates A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. No missing.
+#' @param covariates A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. Subjects with missing covariates are only used for kinship calculation.
 #' @import kinship2
 #' @importFrom coxme lmekin
 #' @importFrom stats as.formula
@@ -48,12 +48,19 @@ else if(!is.null(covariates)){
  if(is.null(covariates)) data <- data_pre
  else if(!is.null(covariates)) data <- cbind(data_pre, covariates)
 
-#mix_model <- lmekin(as.formula(exprs), data=data, random=~1|id, varlist=list(K))
+ # subjects with missing phenotypes are only used for kinship calculation, then they are deleted
+ index = unique(which(is.na(data), arr.ind=T)[,1])
+ if (!identical(index, integer(0))) {
+   data=data[-index,]
+   K=K[-index,-index]
+   X=X[-index,]
+   y=y[-index,]
+   id_order=id_order[-index,]
+ }
+
  mix_model <- lmekin(as.formula(exprs), data=data, varlist=list(K), method="REML")
-#beta = mix_model$ctable[,1]
  beta = fixef(mix_model)
-#V <- mix_model$theta[1]*2*K+mix_model$theta[2]*diag(n)
- V <- mix_model$vcoef$id*K+mix_model$sigma^2*diag(n)
+ V <- mix_model$vcoef$id*K+mix_model$sigma^2*diag(dim(data)[1])
  V_inv <- solve(V)
 
  # The following beta calculation methods give same results

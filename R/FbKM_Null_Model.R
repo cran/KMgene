@@ -5,12 +5,12 @@
 #'
 #' @name FbKM_Null_Model
 #' @aliases FbKM_Null_Model
-#' @param phenotype A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. No missing.
+#' @param phenotype A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. Subjects with missing phenotypes are only used for kinship calculation.
 #' @param id A vector of id (class: vector). It can be either numeric or character. The id indicates each subject. Make sure it is not factor. No missing.
 #' @param fa A vector of father id (class: vector). It can be either numeric or character. The father id indicates the father of each subject. If this subject has no father in this data, the value is set to "NA". Make sure it is not factor.
 #' @param mo A vector of mother id (class: vector). It can be either numeric or character. The mother id indicates the mother of each subject. If this subject has no mother in this data, the value is set to "NA". Make sure it is not factor.
 #' @param family Type of phenotype. (Default="binomial")
-#' @param covariates A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. No missing.
+#' @param covariates A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. Subjects with missing covariates are only used for kinship calculation.
 #' @import MASS
 #' @importFrom mgcv extract.lme.cov
 #' @import kinship2
@@ -43,14 +43,26 @@ else if(!is.null(covariates)){
    X <- as.matrix(X)
    exprs<-paste("y ~ ", paste(names(covariates), collapse=" + "))}
 
- cs.K <- corSymm(2*K[lower.tri(K)],fixed=T)
- # id <- as.factor(id)
- id <- as.matrix(id)
- cs.K <- Initialize(cs.K,data=id)
  data_pre <- data.frame(id=id,y=y)
 
  if(is.null(covariates)) data <- data_pre
  else if(!is.null(covariates)) data <- cbind(data_pre, covariates)
+
+ # subjects with missing phenotypes are only used for kinship calculation, then they are deleted
+ index = unique(which(is.na(data), arr.ind=T)[,1])
+ if (!identical(index, integer(0))) {
+   data=data[-index,]
+   K=K[-index,-index]
+   X=X[-index,]
+   y=y[-index,]
+   id=id[-index]
+   id_order=id_order[-index,]
+ }
+
+ cs.K <- corSymm(2*K[lower.tri(K)],fixed=T)
+ # id <- as.factor(id)
+ id <- as.matrix(id)
+ cs.K <- Initialize(cs.K,data=id)
 
  model <- glmmPQL2(as.formula(exprs), random=~1|id, correlation=cs.K, data=data, family=family, control=lmeControl(opt="optim"))
 

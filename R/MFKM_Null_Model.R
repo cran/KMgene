@@ -5,13 +5,13 @@
 #'
 #' @name MFKM_Null_Model
 #' @aliases MFKM_Null_Model
-#' @param phenotype A vector of quantitative trait in the analysis (class: vector). The order should match the vector yid. No missing.
+#' @param phenotype A vector of quantitative trait in the analysis (class: vector). The order should match the vector yid. Subjects with missing phenotypes are only used for kinship calculation.
 #' @param yid A vector of id (class: vector). Although it doesn't have to be sorted, observations from the same subject have to be connected with each other. The repeated id numbers indicate mutiple time points for one subject. Make sure it is not a factor. No missing.
 #' @param gid A vector of id mapping to samples in genotype file (class: vector). So the order of samples in gid must be the same as the order in genotypes. Make sure it is not a factor. Although gid doesn't have to be in the same order as yid, it is suggested to make them sorted in the same order in order to make all files easily to be tracked. No missing.
 #' @param fa A vector of father id (class: vector). The father id indicates the father of each subject. If this subject has no father in this data, the value is set to "NA". Make sure it is not factor.
 #' @param mo A vector of mother id (class: vector). The mother id indicates the mother of each subject. If this subject has no mother in this data, the value is set to "NA". Make sure it is not factor.
 #' @param trait A vector of multivariate traits (class: vector). The order should match the vector yid. No missing.
-#' @param covariates A matrix of covariates (class: data.frame). The order of rows should match the vector yid. Default NULL. No missing.
+#' @param covariates A matrix of covariates (class: data.frame). The order of rows should match the vector yid. Default NULL. Subjects with missing covariates are only used for kinship calculation.
 #' @param Ninitial The number of times to try initial values. The default is 10 times. If Ninitial=1, the initial value "cor" is always equal to correlation(trait1|covariates, trait2|covariates). One should try multiple initial values in order to find max log-likelihood. This could be time consuming, depends on the sample size. The good thing is that null model only needs to be fitted once for the whole genome, so it's worth trying many initial values.
 #' @param LL.output Output all tried initial values and corresponding log-likelihoods. The initial value with max log-likelihood is used in the algorithm and it can be used for replication. The output file can be renamed.
 #' @param cor Initial value. By default, it's not given, the program tries to find the best initial value. Once it's given, the program uses it as the only initial value. This is useful when one already knows the initial value corresponding to max log-likelihood.
@@ -102,7 +102,21 @@ else if(!is.null(covariates)){
  X=cbind(X1, X2)}
 
  data1<-data[data[,2]==1,]
+ index1 = unique(which(is.na(data1), arr.ind=T)[,1])
  data2<-data[data[,3]==1,]
+ index2 = unique(which(is.na(data2), arr.ind=T)[,1])
+
+ # subjects with missing phenotypes are only used for kinship calculation, then they are deleted
+ index = unique(c(index1, index2))
+ if (!identical(index, integer(0))) {
+   data1=data1[-index,]
+   data2=data2[-index,]
+   K=K[-index,-index]
+   I=I[-index,-index]
+   X=X[-c(2*index-1, 2*index),]
+   y=y[-c(2*index-1, 2*index),]
+   yid_order=yid_order[-c(2*index-1, 2*index),]
+ }
 
  if (Ninitial>1 & is.null(cor)){
   cor<-LL<-vector()
@@ -231,7 +245,21 @@ else if(!is.null(covariates)){
  X=cbind(X1, X2)}
 
  data1<-data[data[,2]==1,]
+ index1 = unique(which(is.na(data1), arr.ind=T)[,1])
  data2<-data[data[,3]==1,]
+ index2 = unique(which(is.na(data2), arr.ind=T)[,1])
+
+ # subjects with missing phenotypes are only used for kinship calculation, then they are deleted
+ index = unique(c(index1, index2))
+ if (!identical(index, integer(0))) {
+   data1=data1[-index,]
+   data2=data2[-index,]
+   K=K[-index,-index]
+   I=I[-index,-index]
+   X=X[-c(2*index-1, 2*index),]
+   y=y[-c(2*index-1, 2*index),]
+   yid_order=yid_order[-c(2*index-1, 2*index),]
+ }
 
  if (Ninitial>1 & is.null(cor)){
   cor<-LL<-vector()

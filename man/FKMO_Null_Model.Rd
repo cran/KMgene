@@ -7,7 +7,7 @@
 FKMO_Null_Model(phenotype, id, fa, mo, covariates = NULL)
 }
 \arguments{
-\item{phenotype}{A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. No missing.}
+\item{phenotype}{A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. Subjects with missing phenotypes are only used for kinship calculation.}
 
 \item{id}{A vector of id (class: vector). It can be either numeric or character. The id indicates each subject. Make sure it is not factor. No missing.}
 
@@ -15,7 +15,7 @@ FKMO_Null_Model(phenotype, id, fa, mo, covariates = NULL)
 
 \item{mo}{A vector of mother id (class: vector). It can be either numeric or character. The mother id indicates the mother of each subject. If this subject has no mother in this data, the value is set to "NA". Make sure it is not factor.}
 
-\item{covariates}{A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. No missing.}
+\item{covariates}{A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. Subjects with missing covariates are only used for kinship calculation.}
 }
 \value{
 output: object as input for FKMO

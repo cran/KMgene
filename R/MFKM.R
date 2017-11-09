@@ -22,7 +22,7 @@
 #' obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 #' gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
 #' Ninitial=3)
-#' #One should try multiple initial values in order to find max log-likelihood. The default 
+#' #One should try multiple initial values in order to find max log-likelihood. The default
 #' #is 10 times. In this illustrative case, it is 3 times.
 #' #This could be time consuming, depends on the sample size. The good thing is that null
 #' #model only needs to be fitted once for the whole genome, so it's worth trying many
@@ -37,10 +37,19 @@
 #' gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
 #' cor=0.687439771651474)
 #' pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
-#' #If Ninitial=1, the initial value "cor" is always equal to 
+#' #If Ninitial=1, the initial value "cor" is always equal to
 #' #correlation(trait1|covariates, trait2|covariates).
 #' obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 #' gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
+#' Ninitial=1)
+#' pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
+#' #Introduce missing into covariates and outcome.
+#' #When samples have missing values in outcome or covariates, those samples are used only for
+#' #kinship calculation.
+#' mfkm_n_covariates[1,] = NA
+#' mfkm_n_y$y[4] = NA
+#' obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
+#' gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=mfkm_n_covariates,
 #' Ninitial=1)
 #' pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
 #' #Read in a list of genes files instead of a big file containing all genes

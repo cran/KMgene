@@ -9,7 +9,7 @@ MFKMO_Null_Model(phenotype, trait, yid, gid, fa, mo, covariates = NULL,
   LL.output = "./LogLikelihood.txt", cor = NULL, eq.cov.effect = F)
 }
 \arguments{
-\item{phenotype}{A vector of quantitative trait in the analysis (class: vector). The order should match the vector yid. No missing.}
+\item{phenotype}{A vector of quantitative trait in the analysis (class: vector). The order should match the vector yid. Subjects with missing phenotypes are only used for kinship calculation.}
 
 \item{trait}{A vector of multivariate traits (class: vector). The order should match the vector yid. No missing.}
 
@@ -21,7 +21,7 @@ MFKMO_Null_Model(phenotype, trait, yid, gid, fa, mo, covariates = NULL,
 
 \item{mo}{A vector of mother id (class: vector). The mother id indicates the mother of each subject. If this subject has no mother in this data, the value is set to "NA". Make sure it is not factor.}
 
-\item{covariates}{A matrix of covariates (class: data.frame). The order of rows should match the vector yid. Default NULL. No missing.}
+\item{covariates}{A matrix of covariates (class: data.frame). The order of rows should match the vector yid. Default NULL. Subjects with missing covariates are only used for kinship calculation.}
 
 \item{Ninitial}{The number of times to try initial values. The default is 10 times. If Ninitial=1, the initial value "cor" is always equal to correlation(trait1|covariates, trait2|covariates). One should try multiple initial values in order to find max log-likelihood. This could be time consuming, depends on the sample size. The good thing is that null model only needs to be fitted once for the whole genome, so it's worth trying many initial values.}
 

@@ -56,6 +56,15 @@ obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y
 gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
 Ninitial=1)
 pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
+#Introduce missing into covariates and outcome.
+#When samples have missing values in outcome or covariates, those samples are used only for
+#kinship calculation.
+mfkm_n_covariates[1,] = NA
+mfkm_n_y$y[4] = NA
+obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
+gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=mfkm_n_covariates,
+Ninitial=1)
+pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
 #Read in a list of genes files instead of a big file containing all genes
 obj <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,

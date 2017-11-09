@@ -1,7 +1,7 @@
 Package: KMgene
 Type: Package
 Title: Gene-Based Association Analysis for Complex Traits
-Version: 1.0
+Version: 1.1
 Author: Qi Yan
 Maintainer: Qi Yan <qiy17@pitt.edu>
 Description: Gene based association test between a group of SNPs and traits
@@ -29,7 +29,7 @@ Collate: 'Data_FKM_charID.R' 'Data_FKM_numID.R' 'Data_FbKM_charID.R'
         'LKM_Null_Model.R' 'MFKM.R' 'MFKMO.R' 'MFKMO_Null_Model.R'
         'MFKM_Null_Model.R' 'MKM.R' 'MKMO.R' 'MKMO_Null_Model.R'
         'MKM_Null_Model.R'
-Packaged: 2017-09-25 15:34:21 UTC; qiyan
+Packaged: 2017-11-09 15:26:24 UTC; qiyan
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2017-09-26 08:51:20 UTC
+Date/Publication: 2017-11-09 21:22:38 UTC

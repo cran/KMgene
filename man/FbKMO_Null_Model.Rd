@@ -8,7 +8,7 @@ FbKMO_Null_Model(phenotype, id, fa, mo, family = "binomial",
   covariates = NULL)
 }
 \arguments{
-\item{phenotype}{A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. No missing.}
+\item{phenotype}{A vector of quantitative trait in the analysis (class: vector). The order should match the vector id. Subjects with missing phenotypes are only used for kinship calculation.}
 
 \item{id}{A vector of id (class: vector). It can be either numeric or character. The id indicates each subject. Make sure it is not factor. No missing.}
 
@@ -18,7 +18,7 @@ FbKMO_Null_Model(phenotype, id, fa, mo, family = "binomial",
 
 \item{family}{Type of phenotype. (Default="binomial")}
 
-\item{covariates}{A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. No missing.}
+\item{covariates}{A matrix of covariates (class: data.frame). The order of rows should match the vector id. Default NULL. Subjects with missing covariates are only used for kinship calculation.}
 }
 \value{
 output: object as input for FbKMO
