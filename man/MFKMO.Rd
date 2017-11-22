@@ -40,11 +40,6 @@ This function (MFKMO) is used to perform optimal KM analysis for quantitative tr
 ######################
 ### Subject IDs are numeric ###
 data("MFKM_numID")
-obj1 <- MFKMO_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
-gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
-Ninitial=3)
-pvalue1 <- MFKMO(obj=obj1, genotypes=mfkm_n_gene, weights=NULL, append.write=
-"./pvalues.out")
 # Read in a list of genes files instead of a big file containing all genes
 obj <- MFKMO_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,

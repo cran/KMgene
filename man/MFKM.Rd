@@ -32,29 +32,25 @@ This function (MFKM) is used to perform KM analysis (Yan et al., 2015) for quant
 ########################################################################################
 ### Subject IDs are numeric ###
 data("MFKM_numID")
+#If Ninitial=1, the initial value "cor" is always equal to
+#correlation(trait1|covariates, trait2|covariates).
 obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
-Ninitial=3)
+Ninitial=1)
 #One should try multiple initial values in order to find max log-likelihood. The default
-#is 10 times. In this illustrative case, it is 3 times.
+#is 10 times.
 #This could be time consuming, depends on the sample size. The good thing is that null
 #model only needs to be fitted once for the whole genome, so it's worth trying many
 #initial values. The initial value with max logl can be saved in ./LogLikelihood.txt
 #for reuse.
-pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL, append.write=
-"./pvalues.out")
+pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
 #If one wants to replicate the results, finds the initial value "cor" with the max
 #loglikelihood in ./LogLikelihood.txt that is output by default. The 1st column is
 #"cor"; 2nd column is "log-likelihood".
 obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
 cor=0.687439771651474)
-pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
-#If Ninitial=1, the initial value "cor" is always equal to
-#correlation(trait1|covariates, trait2|covariates).
-obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
-gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
-Ninitial=1)
+#This "cor" is calcualted based on 3 initial values, "Ninitial=3".
 pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
 #Introduce missing into covariates and outcome.
 #When samples have missing values in outcome or covariates, those samples are used only for
