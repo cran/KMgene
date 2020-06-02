@@ -28,6 +28,10 @@
 #' ######################
 #' ### Subject IDs are numeric ###
 #' data("MFKM_numID")
+#' obj1 <- MFKMO_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
+#' gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
+#' Ninitial=1)
+#' pvalue1 <- MFKMO(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
 #' # Read in a list of genes files instead of a big file containing all genes
 #' obj <- MFKMO_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 #' gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
@@ -35,8 +39,7 @@
 #' gene <- split(mfkm_n_gene, mfkm_n_gene[,1])
 #' for (k in 1:2) {
 #'   gene[[k]]$gene <- as.character(gene[[k]]$gene)
-#'   pvalue1 <- MFKMO(obj=obj, genotypes=gene[[k]], weights=NULL, append.write=
-#'   "./pvalues.out")
+#'   pvalue1 <- MFKMO(obj=obj, genotypes=gene[[k]], weights=NULL)
 #' }
 #' ### Subject IDs are character ###
 #' data("MFKM_charID")

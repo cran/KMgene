@@ -27,7 +27,7 @@
 #' @importFrom stats optim
 #' @return output: object as input for MFKMO
 #' @export
-MFKMO_Null_Model <- function(phenotype, trait, yid, gid, fa, mo, covariates=NULL, Ninitial=10, method="Nelder-Mead", LL.output='./LogLikelihood.txt', cor=NULL, eq.cov.effect=F){
+MFKMO_Null_Model <- function(phenotype, trait, yid, gid, fa, mo, covariates=NULL, Ninitial=10, method="Nelder-Mead", LL.output=NULL, cor=NULL, eq.cov.effect=F){
 
 if (method=="Nelder-Mead"){
 reml.lik<-function(theta,y,X,K,I){
@@ -128,12 +128,12 @@ else if(!is.null(covariates)){
   all[[1]] = optim(c(log(1-abs(cor[1])), log(1-abs(cor[1])), cor[1], log(1-abs(cor[1])), log(1-abs(cor[1])), cor[1]), reml.lik, y=y, X=X, K=K, I=I)
   theta[[1]] = all[[1]]$par
   LL[1] = -0.5*all[[1]]$value
-  write.table(t(c(cor[1], LL[1])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
+  if(!is.null(LL.output)) write.table(t(c(cor[1], LL[1])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
   for (i in 2:Ninitial){
    all[[i]] = optim(c(log(1-abs(cor[i])), log(1-abs(cor[i])), cor[i], log(1-abs(cor[i])), log(1-abs(cor[i])), cor[i]), reml.lik, y=y, X=X, K=K, I=I)
    theta[[i]] = all[[i]]$par
    LL[i] = -0.5*all[[i]]$value
-   write.table(t(c(cor[i], LL[i])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
+   if(!is.null(LL.output)) write.table(t(c(cor[i], LL[i])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
   }
   theta = theta[[which(LL==max(LL))]]
   LL = max(LL)
@@ -144,13 +144,13 @@ else if(!is.null(covariates)){
   all = optim(c(log(1-abs(cor)), log(1-abs(cor)), cor, log(1-abs(cor)), log(1-abs(cor)), cor), reml.lik, y=y, X=X, K=K, I=I)
   theta = all$par
   LL = -0.5*all$value
-  write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
+  if(!is.null(LL.output)) write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
  }
  else if (!is.null(cor)){
   all = optim(c(log(1-abs(cor)), log(1-abs(cor)), cor, log(1-abs(cor)), log(1-abs(cor)), cor), reml.lik, y=y, X=X, K=K, I=I)
   theta = all$par
   LL = -0.5*all$value
-  write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
+  if(!is.null(LL.output)) write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
  }
 
  K1<-exp(theta[1]) + abs(theta[3])
@@ -273,12 +273,12 @@ else if(!is.null(covariates)){
   all[[1]] = optim(c(1, 1, cor[1], 1, 1, cor[1]), reml.lik, method="L-BFGS-B", lower=c(0,0,-1,0,0), upper=c(Inf,Inf,1,Inf,Inf),  y=y, X=X, K=K, I=I)
   theta[[1]] = all[[1]]$par
   LL[1] = -0.5*all[[1]]$value
-  write.table(t(c(cor[1], LL[1])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
+  if(!is.null(LL.output)) write.table(t(c(cor[1], LL[1])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
   for (i in 2:Ninitial){
    all[[i]] = optim(c(1, 1, cor[i], 1, 1, cor[i]), reml.lik, method="L-BFGS-B", lower=c(0,0,-1,0,0), upper=c(Inf,Inf,1,Inf,Inf), y=y, X=X, K=K, I=I)
    theta[[i]] = all[[i]]$par
    LL[i] = -0.5*all[[i]]$value
-   write.table(t(c(cor[i], LL[i])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
+   if(!is.null(LL.output)) write.table(t(c(cor[i], LL[i])), file=LL.output, append=T, row.names=F, col.names=F, quote=F)
   }
   theta = theta[[which(LL==max(LL))]]
   LL = max(LL)
@@ -289,13 +289,13 @@ else if(!is.null(covariates)){
   all = optim(c(1, 1, cor, 1, 1, cor), reml.lik, method="L-BFGS-B", lower=c(0,0,-1,0,0), upper=c(Inf,Inf,1,Inf,Inf), y=y, X=X, K=K, I=I)
   theta = all$par
   LL = -0.5*all$value
-  write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
+  if(!is.null(LL.output)) write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
  }
  else if (!is.null(cor)){
   all = optim(c(1, 1, cor, 1, 1, cor), reml.lik, method="L-BFGS-B", lower=c(0,0,-1,0,0), upper=c(Inf,Inf,1,Inf,Inf), y=y, X=X, K=K, I=I)
   theta = all$par
   LL = -0.5*all$value
-  write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
+  if(!is.null(LL.output)) write.table(t(c(cor, LL)), file=LL.output, row.names=F, col.names=F, quote=F)
  }
 
  K1<-theta[1]

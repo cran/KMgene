@@ -28,7 +28,7 @@
 #' ###################
 #' data("LKM_numID_int")
 #' pvalue1 <- LKM_Int(phenotype=lkm_int_n_y$y, genotypes=lkm_int_n_gene, time=lkm_int_n_y$time,
-#' yid=lkm_int_n_y$id, gid=lkm_int_n_gid$gid, covariates=NULL, append.write="./pvalues.out")
+#' yid=lkm_int_n_y$id, gid=lkm_int_n_gid$gid, covariates=NULL)
 #' @export
 LKM_Int <- function(phenotype, time, yid, genotypes, gid, covariates=NULL, acc=1e-4, append.write=NULL){
 

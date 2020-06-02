@@ -21,10 +21,7 @@
 #' data("FbKM_numID")
 #' obj1 <- FbKM_Null_Model(phenotype=fbkm_n_y$y, id=fbkm_n_y$id, fa=fbkm_n_y$fa,
 #' mo=fbkm_n_y$mo, family="binomial", covariates=NULL)
-#' pvalue1 <- FbKM(obj=obj1, genotypes=fbkm_n_gene, gid=fbkm_n_geneid$gid, weights=NULL, 
-#' append.write="./pvalues.out")
-#' pvalue1 <- FbKM(obj=obj1, genotypes=fbkm_n_gene, gid=fbkm_n_geneid$gid, weights=NULL, 
-#' append.write=NULL)
+#' pvalue1 <- FbKM(obj=obj1, genotypes=fbkm_n_gene, gid=fbkm_n_geneid$gid, weights=NULL) 
 #' obj2 <- FbKM_Null_Model(phenotype=fbkm_n_y$y, id=fbkm_n_y$id, fa=fbkm_n_y$fa,
 #' mo=fbkm_n_y$mo, family="binomial", covariates=NULL)
 #' pvalue2 <- FbKM(obj=obj2, genotypes=fbkm_n_gene, gid=fbkm_n_geneid$gid, weights=
@@ -39,8 +36,7 @@
 #' gene <- split(fbkm_n_gene, fbkm_n_gene[,1])
 #' for (k in 1:2) {
 #'   gene[[k]]$gene <- as.character(gene[[k]]$gene)
-#'   pvalue1 <- FbKM(obj=obj4, genotypes=gene[[k]], gid=fbkm_n_geneid$gid, weights=NULL, 
-#'   append.write="./pvalues.out")
+#'   pvalue1 <- FbKM(obj=obj4, genotypes=gene[[k]], gid=fbkm_n_geneid$gid, weights=NULL) 
 #'   }
 #' ### Subject IDs are character ###
 #' data("FbKM_charID")

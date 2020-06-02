@@ -28,11 +28,11 @@
 #' #is 10 times.
 #' #This could be time consuming, depends on the sample size. The good thing is that null
 #' #model only needs to be fitted once for the whole genome, so it's worth trying many
-#' #initial values. The initial value with max logl can be saved in ./LogLikelihood.txt
-#' #for reuse.
+#' #initial values. The initial value with max logl can be saved in LogLikelihood.txt
+#' #(LL.output="LogLikelihood.txt") for reuse.
 #' pvalue1 <- MFKM(obj=obj1, genotypes=mfkm_n_gene, weights=NULL)
 #' #If one wants to replicate the results, finds the initial value "cor" with the max
-#' #loglikelihood in ./LogLikelihood.txt that is output by default. The 1st column is
+#' #loglikelihood in LogLikelihood.txt that is output by LL.output. The 1st column is
 #' #"cor"; 2nd column is "log-likelihood".
 #' obj1 <- MFKM_Null_Model(phenotype=mfkm_n_y$y, trait=mfkm_n_y$trait, yid=mfkm_n_y$id,
 #' gid=mfkm_n_geneid$gid, fa=mfkm_n_geneid$fa, mo=mfkm_n_geneid$mo, covariates=NULL,
@@ -55,8 +55,7 @@
 #' gene <- split(mfkm_n_gene, mfkm_n_gene[,1])
 #' for (k in 1:2) {
 #'   gene[[k]]$gene <- as.character(gene[[k]]$gene)
-#'   pvalue1 <- MFKM(obj=obj, genotypes=gene[[k]], weights=NULL, append.write=
-#'   "./pvalues.out")
+#'   pvalue1 <- MFKM(obj=obj, genotypes=gene[[k]], weights=NULL)
 #' }
 #' ### Subject IDs are character ###
 #' data("MFKM_charID")
